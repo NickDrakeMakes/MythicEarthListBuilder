@@ -1,0 +1,331 @@
+:root {
+  --bg-dark: #111827;
+  --bg-medium: #1f2937;
+  --bg-light: #374151;
+  --text: #f3f3f3;
+  --muted: #9ca3af;
+  --highlight: #3b82f6;
+
+  --badge-behemoth: #ef4444;
+  --badge-behemoth-bg: #7f1d1d;
+
+  --badge-humanoid: #3b82f6;
+  --badge-humanoid-bg: #1e3a8a;
+
+  --badge-heroic: #eab308;
+  --badge-heroic-bg: #78350f;
+
+  --badge-beast: #22c55e;
+  --badge-beast-bg: #166534;
+
+  --badge-multitudes: #f97316;
+  --badge-multitudes-bg: #9a3412;
+
+  --badge-magic: #06b6d4;
+  --badge-magic-bg: #0e7490;
+
+  --badge-undead: #8b5cf6;
+  --badge-undead-bg: #4c1d95;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text);
+  padding: 20px;
+  margin: 0;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+  color: var(--highlight);
+}
+
+#builder {
+  display: flex;
+  gap: 40px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.unit-list, .selected-list {
+  flex: 1 1 300px;
+  background: var(--bg-medium);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.4);
+  max-width: 500px;
+}
+
+.unit-list h2, .selected-list h2 {
+  color: var(--highlight);
+  font-size: 1.25rem;
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--bg-light);
+  padding-bottom: 6px;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  background: var(--bg-light);
+  margin-bottom: 12px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+li:hover {
+  background: #4b5563;
+  border-left: 4px solid var(--highlight);
+}
+
+.unit-disabled {
+  filter: grayscale(1) brightness(0.6);
+  pointer-events: none;
+  position: relative;
+}
+
+.unit-disabled .badge {
+  filter: none;
+  opacity: 1;
+  z-index: 1;
+}
+
+.remove-unit {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.remove-unit:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+button {
+  background: var(--highlight);
+  color: #000;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+button:hover {
+  background: #60a5fa;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.88);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: var(--bg-medium);
+  border: 1px solid var(--bg-light);
+  padding: 30px;
+  border-radius: 12px;
+  width: 360px;
+  max-width: 90%;
+  position: relative;
+  box-shadow: 0 0 20px #000;
+}
+
+.modal h3 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 1.5em;
+  text-align: center;
+  color: var(--highlight);
+}
+
+/* ✅ NEW — Bottom-aligned soft Close button */
+.modal-close-soft {
+  display: block;
+  margin: 10px auto 0 auto;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-align: center;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.modal-close-soft:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.modal label {
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.modal input[type="number"],
+.modal input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.modal input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  background: var(--bg-dark);
+  color: var(--text);
+  border: 1px solid var(--bg-light);
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.modal button {
+  margin-top: 24px;
+  width: 100%;
+  background: var(--highlight);
+  color: #000;
+}
+
+/* Tooltip */
+#tooltip {
+  position: fixed;
+  background: rgba(30, 41, 59, 0.95);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  pointer-events: none;
+  z-index: 2000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  max-width: 280px;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Badge base */
+.badge {
+  background-color: var(--badge-humanoid-bg);
+  color: var(--highlight);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* Unit Type Badges */
+.badge--behemoth {
+  background-color: var(--badge-behemoth-bg);
+  color: var(--badge-behemoth);
+}
+.badge--humanoid {
+  background-color: var(--badge-humanoid-bg);
+  color: var(--badge-humanoid);
+}
+.badge--heroic {
+  background-color: var(--badge-heroic-bg);
+  color: var(--badge-heroic);
+}
+.badge--beast {
+  background-color: var(--badge-beast-bg);
+  color: var(--badge-beast);
+}
+.badge--multitudes {
+  background-color: var(--badge-multitudes-bg);
+  color: var(--badge-multitudes);
+}
+
+/* Monster Type */
+.badge--monster {
+  background-color: var(--badge-magic-bg);
+  color: var(--badge-magic);
+  margin-left: 6px;
+}
+.point-progress {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.point-progress.low {
+  color: #3b82f6; /* blue */
+}
+.point-progress.mid {
+  color: #facc15; /* yellow */
+}
+.point-progress.high {
+  color: #f43f5e; /* red */
+}
+/* Optional: Theming per faction */
+body[data-faction="aztec"] {
+  --highlight: #f59e0b;
+}
+body[data-faction="tribal"] {
+  --highlight: #10b981;
+}
+body[data-faction="inca"] {
+  --highlight: #e11d48;
+}
+body[data-faction="maya"] {
+  --highlight: #6366f1;
+}
+body[data-faction="western"] {
+  --highlight: #f43f5e;
+}
+body[data-faction="inuit"] {
+  --highlight: #0ea5e9;
+}
+body[data-faction="taino"] {
+  --highlight: #a855f7;
+}
+body[data-faction="chachapoya"] {
+  --highlight: #14b8a6;
+}
+body[data-faction="totem"] {
+  --highlight: #84cc16;
+}
